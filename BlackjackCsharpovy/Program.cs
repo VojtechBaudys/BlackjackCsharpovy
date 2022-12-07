@@ -1,3 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿namespace BlackjackCsharpovy;
 
-Console.WriteLine("Hello, World!");
+public class Program
+{
+    static void Main()
+    {
+        Game game = new Game();
+        
+    }
+}
