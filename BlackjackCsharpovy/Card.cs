@@ -4,14 +4,12 @@ namespace BlackjackCsharpovy;
 
 public class Card
 {
-    public string Name;
-    public int Value;
-    public string Color;
+    public char Name;
+    public char Symbol;
     
-    Card(string name, int value, string color)
+    internal Card(char name, char symbol)
     {
         Name = name;
-        Value = value;
-        Color = color;
+        Symbol = symbol;
     }
 }
