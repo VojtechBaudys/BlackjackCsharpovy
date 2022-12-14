@@ -27,13 +27,26 @@ public class Game
             switch (GetInput())
             {
                 case "p": case "play":
+                    Play();
                     break;
                 case "l": case "leader":
+                    LeaderBoard();
                     break;
                 case "e": case "exit":
+                    Run = false;
                     break;
             }
         }
+    }
+
+    public void LeaderBoard()
+    {
+        
+    }
+
+    public void Play()
+    {
+        deck = new Deck(4);
     }
     
     private string GetInput(int maxLetters = 0, bool inLetters = true)

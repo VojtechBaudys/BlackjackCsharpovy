@@ -7,42 +7,55 @@ public class Deck
 {
     public List<Card> Cards;
 
-    internal Deck()
+    internal Deck(int amountOfDecks)
     {
+        Cards = new List<Card>();
         List<char> symbols = new List<char>()
         {
             '♣', '♦', '♥', '♠'
         };
-        for (int value = 0; value < 13; value++)
+
+        for (int amount = 0; amount < amountOfDecks; amount++)
         {
-            for (int symbol = 0; symbol < 4; symbol++)
+            for (int value = 1; value <= 13; value++)
             {
-                char name;
-                switch (value)
+                for (int symbol = 0; symbol < 4; symbol++)
                 {
-                    case 0:
-                        name = 'A';
-                        break;
-                    case 11:
-                        name = 'J';
-                        break;
-                    case 12:
-                        name = 'Q';
-                        break;
-                    case 13:
-                        name = 'K';
-                        break;
-                    default:
-                        name = (char) value;
-                        break;
+                    char name;
+                    switch (value)
+                    {
+                        case 1:
+                            name = 'A';
+                            break;
+                        case 11:
+                            name = 'J';
+                            break;
+                        case 12:
+                            name = 'Q';
+                            break;
+                        case 13:
+                            name = 'K';
+                            break;
+                        default:
+                            name = (char)value;
+                            break;
+                    }
+
+                    Cards.Add(new Card(name, symbols[symbol]));
                 }
-                Cards.Add(new Card(name, symbols[symbol]));
             }
         }
+        Shuffle();
     }
-
+    
     void Shuffle()
     {
-        
+        List<Card> shuffledCards = new List<Card>();
+        for (int card = 0; card < Cards.Count; card++)
+        {
+            shuffledCards.Add(Cards[card]);
+            Cards.RemoveAt(card);
+        }
+        Cards = shuffledCards;
     }
 }
