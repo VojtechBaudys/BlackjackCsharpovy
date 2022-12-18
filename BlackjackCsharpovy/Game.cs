@@ -1,17 +1,17 @@
 ﻿using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace BlackjackCsharpovy;
 
 public class Game
 {
     public bool Run;
-    public Dealer Dealers;
+    public Dealer Dealer;
     public Player Player;
-    public Deck deck;
+    public Deck Deck;
     internal Game()
     {
         Run = true;
-        Dealers = new Dealer();
     }
 
     public void GameLoop()
@@ -19,7 +19,7 @@ public class Game
         while (Run)
         {
             Console.Write(
-                "Blackjack\n" +
+                "BLACKJACK\n" +
                 "[P]LAY\n" +
                 "[L]EADER\n" +
                 "[E]XIT\n"
@@ -41,12 +41,41 @@ public class Game
 
     public void LeaderBoard()
     {
+        Console.Write("LEADER\n\n");
         
+        string jsonString = File.ReadAllText("stats.json");
+        Dictionary<string, int> jsonFile = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonString);
+
+        var sortedDict = (from entry in jsonFile orderby entry.Value descending select entry).Take(5);
+        Console.WriteLine(string.Join("\n", sortedDict.Select(pair => $"{pair.Key}: {pair.Value}")));
+        Console.WriteLine();
     }
 
     public void Play()
     {
-        deck = new Deck(4);
+        Player = new Player(GetUserName());
+        Dealer = new Dealer();
+        Deck = new Deck(4);
+        while (Run)
+        {
+            Player.GetCard(Deck.DealCard());
+            Dealer.GetCard(Deck.DealCard());
+
+            Player.CountCardsValue();
+        }
+    }
+    
+    private string GetUserName()
+    {
+        string input = "";
+        while (input == "")
+        {
+            Console.Write(
+                "ENTER YOUR USERNAME\n"
+            );
+            input = GetInput();
+        }
+        return input;
     }
     
     private string GetInput(int maxLetters = 0, bool inLetters = true)

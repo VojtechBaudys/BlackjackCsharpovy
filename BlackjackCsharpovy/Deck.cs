@@ -48,14 +48,29 @@ public class Deck
         Shuffle();
     }
     
-    void Shuffle()
+    private void Shuffle()
     {
+        Random random = new Random();
         List<Card> shuffledCards = new List<Card>();
-        for (int card = 0; card < Cards.Count; card++)
+        int cardsCount = Cards.Count;
+        
+        for (int card = 0; card < cardsCount; card++)
         {
-            shuffledCards.Add(Cards[card]);
-            Cards.RemoveAt(card);
+            int index = random.Next(0, Cards.Count);
+            shuffledCards.Add(Cards[index]);
+            Cards.RemoveAt(index);
         }
         Cards = shuffledCards;
+    }
+
+    public Card DealCard()
+    {
+        Random random = new Random();
+        int randomIndex = random.Next(0, Cards.Count);
+        
+        Card card = Cards[randomIndex];
+        Cards.RemoveAt(randomIndex);
+        
+        return card;
     }
 }
