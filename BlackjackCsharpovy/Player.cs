@@ -1,4 +1,6 @@
-﻿namespace BlackjackCsharpovy;
+﻿using System.Diagnostics;
+
+namespace BlackjackCsharpovy;
 
 public class Player
 {
@@ -26,11 +28,36 @@ public class Player
         int totalCount = 0;
         for (int index = 0; index < Cards.Count; index++)
         {
-            Console.WriteLine(Cards[index].Name);
-            // if (Int32.TryParse(Cards[index].Name, out int result))
-            // {
-            //     totalCount += result;
-            // }
+            List<Card> countingCards = Cards;
+            char value = countingCards[0].Name;
+            
+            if (Int32.TryParse(value.ToString(), out int result))
+            {
+                totalCount += result;
+                countingCards.RemoveAt(0);
+                break;
+            }
+            else
+            {
+                switch (value)
+                {
+                    case 'A':
+                        
+                        break;
+                    case 'J':
+                        totalCount += 11;
+                        countingCards.RemoveAt(0);
+                        break;
+                    case 'Q':
+                        totalCount += 12;
+                        countingCards.RemoveAt(0);
+                        break;
+                    case 'K':
+                        totalCount += 13;
+                        countingCards.RemoveAt(0);
+                        break;
+                }
+            }
         }
 
         return totalCount;
