@@ -19,7 +19,7 @@ public class Game
         while (Run)
         {
             Console.Write(
-                "BLACKJACK\n" +
+                "\nBLACKJACK\n" +
                 "[P]LAY\n" +
                 "[L]EADER\n" +
                 "[E]XIT\n"
@@ -57,9 +57,21 @@ public class Game
         Deck = new Deck(4);
         int bet;
         bool play = true;
-        
-        Console.WriteLine("SET YOUR BET");
-        bet = Int32.Parse(GetInput(0, "number"));
+
+        while (true)
+        {
+            Console.WriteLine("\nSET YOUR BET");
+            int input = Int32.Parse(GetInput(0, "number"));
+            if (input > 0 && input <= Player.Money)
+            {
+                bet = input;
+                break;
+            }
+            else
+            {
+                Console.WriteLine("\nENTER VALID NUMBER");
+            }
+        }
         
         while (play)
         {
@@ -73,7 +85,7 @@ public class Game
             {
                 GetStats();
                 Console.Write(
-                    "SELECT ONE OPTION\n" +
+                    "\nSELECT ONE OPTION\n" +
                     "[H]IT\n" +
                     "[D]OUBLE\n" +
                     "[S]TAND\n"
@@ -84,7 +96,13 @@ public class Game
                         Player.GetCard(Deck.DealCard());
                         break;
                     case "d": case "double":
-                        // Player.GetCard(Deck.DealCard());
+                        if (bet * 2 <= Player.Money)
+                        {
+                            Player.GetCard(Deck.DealCard());
+                            bet *= 2;
+                            pick = false;
+                            play = false;
+                        }
                         break;
                     case "s": case "stand":
                         pick = false;
@@ -92,30 +110,33 @@ public class Game
                         break;
                 }
             }
-
-            while (Dealer.CountCardsValue() < 17)
+            
+            while (Dealer.CountCardsValue() < 17 && Player.CountCardsValue() <= 21)
             {
                 GetStats();
                 Dealer.GetCard(Deck.DealCard());
             }
 
-            if (Player.CountCardsValue() >= Dealer.CountCardsValue() && Player.CountCardsValue() > 21)
+            if (Player.CountCardsValue() < Dealer.CountCardsValue() || Player.CountCardsValue() > 21)
             {
-                Console.WriteLine("WIN");
                 GetStats();
+                Console.WriteLine("\nLOSE");
                 play = false;
+                Player.Money -= bet;
             }
             else
             {
-                Console.WriteLine("LOSE");
                 GetStats();
+                Console.WriteLine("\nWIN");
                 play = false;
+                Player.Money += bet;
             }
         }
     }
 
     private void GetStats()
     {
+        Console.Clear();
         Console.WriteLine("\nPlayer");
         Player.PrintCards();
         Console.WriteLine("\n" + Player.CountCardsValue());
@@ -133,7 +154,7 @@ public class Game
         while (input == "")
         {
             Console.Write(
-                "ENTER YOUR USERNAME\n"
+                "\nENTER YOUR USERNAME\n"
             );
             input = GetInput();
         }
@@ -191,7 +212,7 @@ public class Game
                 }
             } while (input == "");
 			
-            // Console.Clear();
+            Console.Clear();
             return input.ToLower();
         }
     }
