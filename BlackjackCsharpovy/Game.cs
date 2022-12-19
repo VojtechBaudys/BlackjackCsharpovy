@@ -102,11 +102,13 @@ public class Game
             if (Player.CountCardsValue() >= Dealer.CountCardsValue() && Player.CountCardsValue() > 21)
             {
                 Console.WriteLine("WIN");
+                GetStats();
                 play = false;
             }
             else
             {
                 Console.WriteLine("LOSE");
+                GetStats();
                 play = false;
             }
         }
