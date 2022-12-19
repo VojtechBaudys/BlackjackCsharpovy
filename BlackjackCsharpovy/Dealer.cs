@@ -59,4 +59,12 @@ public class Dealer
 
         return totalCount;
     }
+    
+    public void PrintCards()
+    {
+        for (int index = 0; index < Cards.Count; index++)
+        {
+            Console.Write(Cards[index].Name + Cards[index].Symbol + " ");
+        }
+    }
 }

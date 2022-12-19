@@ -55,11 +55,23 @@ public class Game
         Player = new Player(GetUserName());
         Dealer = new Dealer();
         Deck = new Deck(4);
-
-        while (Run)
+        int bet;
+        bool play = true;
+        
+        Console.WriteLine("SET YOUR BET");
+        bet = Int32.Parse(GetInput(0, "number"));
+        
+        while (play)
         {
+            bool pick = true;
+            
+            Player.GetCard(Deck.DealCard());
+            Player.GetCard(Deck.DealCard());
+            Dealer.GetCard(Deck.DealCard());
+
             while (Player.CountCardsValue() < 21 && pick)
             {
+                GetStats();
                 Console.Write(
                     "SELECT ONE OPTION\n" +
                     "[H]IT\n" +
@@ -72,22 +84,47 @@ public class Game
                         Player.GetCard(Deck.DealCard());
                         break;
                     case "d": case "double":
-                        Player.GetCard(Deck.DealCard());
+                        // Player.GetCard(Deck.DealCard());
                         break;
                     case "s": case "stand":
                         pick = false;
+                        play = false;
                         break;
                 }
             }
 
-
             while (Dealer.CountCardsValue() < 17)
             {
+                GetStats();
                 Dealer.GetCard(Deck.DealCard());
+            }
+
+            if (Player.CountCardsValue() >= Dealer.CountCardsValue() && Player.CountCardsValue() > 21)
+            {
+                Console.WriteLine("WIN");
+                play = false;
+            }
+            else
+            {
+                Console.WriteLine("LOSE");
+                play = false;
             }
         }
     }
 
+    private void GetStats()
+    {
+        Console.WriteLine("\nPlayer");
+        Player.PrintCards();
+        Console.WriteLine("\n" + Player.CountCardsValue());
+        Console.WriteLine("\nDealer");
+        Dealer.PrintCards();
+        if (Dealer.CountCardsValue() != 0)
+        {
+            Console.WriteLine("\n" + Dealer.CountCardsValue());
+        }
+    }
+    
     private string GetUserName()
     {
         string input = "";
@@ -101,7 +138,7 @@ public class Game
         return input;
     }
     
-    private string GetInput(int maxLetters = 0, bool inLetters = true)
+    private string GetInput(int maxLetters = 0, string type = "letter")
     {
         string input;
         {
@@ -110,7 +147,7 @@ public class Game
                 input = Console.ReadLine()!;
                 input = input.ToLower();
 
-                if (inLetters)
+                if (type == "letter")
                 {
                     if (Regex.IsMatch(input, @"^[a-zA-Z]+$"))
                     {
@@ -130,21 +167,29 @@ public class Game
                         input = "";
                     }
                 }
-                else
+                else if (type == "number")
                 {
-                    if (!(maxLetters >= input.Length) && maxLetters != 0)
+                    if (Regex.IsMatch(input, @"^[1234567890]+$"))
                     {
-                        Console.WriteLine("Enter only " + maxLetters + " letter");
-                        input = "";
+                        if (!(maxLetters >= input.Length) && maxLetters != 0)
+                        {
+                            Console.WriteLine("Enter only " + maxLetters + " letter");
+                            input = "";
+                        }
+                        else if (input.Length == 0)
+                        {
+                            Console.WriteLine("Write something PLS");
+                        }
                     }
-                    else if (input.Length == 0)
+                    else
                     {
-                        Console.WriteLine("Write something PLS");
+                        Console.WriteLine("Only numbers PLS");
+                        input = "";
                     }
                 }
             } while (input == "");
 			
-            Console.Clear();
+            // Console.Clear();
             return input.ToLower();
         }
     }
