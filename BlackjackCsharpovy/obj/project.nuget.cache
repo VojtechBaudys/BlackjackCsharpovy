@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vctZggZseRA04nQ2r5N7fSDGVw1JSrwQHL0LEblY87Ve5YAoQePzNTSFtp8N/LoOfPIeA6qFHzMojURGlCqwHQ==",
+  "dgSpecHash": "nypubGFoY8Zos7Xsnnp6cxn1ffrNjTx/SbKvpz0xo9LtuSOHmB+8sGgIYr72ocqRqtp2ZcL20Ef58Mrv5U+1xg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\baudyvo20\\RiderProjects\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
+  "projectFilePath": "C:\\Users\\baudyvo20\\Source\\Repos\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\baudyvo20\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
   ],

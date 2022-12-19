@@ -21,23 +21,23 @@ public class Deck
             {
                 for (int symbol = 0; symbol < 4; symbol++)
                 {
-                    char name;
+                    string name;
                     switch (value)
                     {
                         case 1:
-                            name = 'A';
+                            name = "A";
                             break;
                         case 11:
-                            name = 'J';
+                            name = "J";
                             break;
                         case 12:
-                            name = 'Q';
+                            name = "Q";
                             break;
                         case 13:
-                            name = 'K';
+                            name = "K";
                             break;
                         default:
-                            name = (char)value;
+                            name = value.ToString();
                             break;
                     }
 

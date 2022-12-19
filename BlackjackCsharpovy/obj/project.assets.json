@@ -5,10 +5,14 @@
       "Newtonsoft.Json/13.0.2": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Newtonsoft.Json.dll": {}
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/net6.0/Newtonsoft.Json.dll": {}
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         }
       }
     }
@@ -51,32 +55,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\baudyvo20\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet": {}
+    "C:\\Users\\baudyvo20\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\baudyvo20\\RiderProjects\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
+      "projectUniqueName": "C:\\Users\\baudyvo20\\Source\\Repos\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
       "projectName": "BlackjackCsharpovy",
-      "projectPath": "C:\\Users\\baudyvo20\\RiderProjects\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
+      "projectPath": "C:\\Users\\baudyvo20\\Source\\Repos\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
       "packagesPath": "C:\\Users\\baudyvo20\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\baudyvo20\\RiderProjects\\BlackjackCsharpovy\\BlackjackCsharpovy\\obj\\",
+      "outputPath": "C:\\Users\\baudyvo20\\Source\\Repos\\BlackjackCsharpovy\\BlackjackCsharpovy\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Progress\\ToolboxNuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet"
-      ],
       "configFilePaths": [
         "C:\\Users\\baudyvo20\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WinForms.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Telerik UI for WPF.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -122,7 +114,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

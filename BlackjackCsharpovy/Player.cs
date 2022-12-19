@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Diagnostics;
 
 namespace BlackjackCsharpovy;
 
@@ -22,41 +24,44 @@ public class Player
 
     public int CountCardsValue()
     {
-//      TODO 
-//          COUNT ZEO
-        
         int totalCount = 0;
+        List<Card> a = new List<Card>();
+
         for (int index = 0; index < Cards.Count; index++)
         {
-            List<Card> countingCards = Cards;
-            char value = countingCards[0].Name;
-            
-            if (Int32.TryParse(value.ToString(), out int result))
+            if (Int32.TryParse(Cards[index].Name, out int result))
             {
                 totalCount += result;
-                countingCards.RemoveAt(0);
-                break;
             }
             else
             {
-                switch (value)
+                switch (Cards[index].Name)
                 {
-                    case 'A':
-                        
+                    case "A":
+                        a.Add(Cards[index]);
                         break;
-                    case 'J':
+                    case "J":
                         totalCount += 11;
-                        countingCards.RemoveAt(0);
                         break;
-                    case 'Q':
+                    case "Q":
                         totalCount += 12;
-                        countingCards.RemoveAt(0);
                         break;
-                    case 'K':
+                    case "K":
                         totalCount += 13;
-                        countingCards.RemoveAt(0);
                         break;
                 }
+            }
+        }
+
+        for (int index = 0; index < a.Count(); index++)
+        {
+            if (totalCount + 11 <= 21)
+            {
+                totalCount += 11;
+            }
+            else
+            {
+                totalCount++;
             }
         }
 

@@ -47,8 +47,7 @@ public class Game
         Dictionary<string, int> jsonFile = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonString);
 
         var sortedDict = (from entry in jsonFile orderby entry.Value descending select entry).Take(5);
-        Console.WriteLine(string.Join("\n", sortedDict.Select(pair => $"{pair.Key}: {pair.Value}")));
-        Console.WriteLine();
+        Console.WriteLine(string.Join("\n", sortedDict.Select(pair => $"{pair.Key}: {pair.Value}\n")));
     }
 
     public void Play()
@@ -56,15 +55,39 @@ public class Game
         Player = new Player(GetUserName());
         Dealer = new Dealer();
         Deck = new Deck(4);
+
         while (Run)
         {
-            Player.GetCard(Deck.DealCard());
-            Dealer.GetCard(Deck.DealCard());
+            while (Player.CountCardsValue() < 21 && pick)
+            {
+                Console.Write(
+                    "SELECT ONE OPTION\n" +
+                    "[H]IT\n" +
+                    "[D]OUBLE\n" +
+                    "[S]TAND\n"
+                );
+                switch (GetInput())
+                {
+                    case "h": case "hit":
+                        Player.GetCard(Deck.DealCard());
+                        break;
+                    case "d": case "double":
+                        Player.GetCard(Deck.DealCard());
+                        break;
+                    case "s": case "stand":
+                        pick = false;
+                        break;
+                }
+            }
 
-            Player.CountCardsValue();
+
+            while (Dealer.CountCardsValue() < 17)
+            {
+                Dealer.GetCard(Deck.DealCard());
+            }
         }
     }
-    
+
     private string GetUserName()
     {
         string input = "";
