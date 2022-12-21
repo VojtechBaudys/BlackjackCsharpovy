@@ -1,72 +1,57 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Diagnostics;
+﻿using Newtonsoft.Json;
 
 namespace BlackjackCsharpovy;
 
-public class Player
+public class Player : User
 {
     public string Name;
     public int Money;
-    public List<Card> Cards;
 
     internal Player(string name)
     {
         Name = name;
-        Money = 420;
-        Cards = new List<Card>();
+        ReadMoney();
     }
 
-    public void GetCard(Card card)
+    // Check stats.json if exist
+    // false -> create new one
+    public void StatsExist()
     {
-        Cards.Add(card);
+        try
+        {
+            JsonConvert.DeserializeObject(File.ReadAllText("stats.json"));
+        }
+        catch (Exception e)
+        {
+            File.Create("stats.json").Close();
+            File.WriteAllText("stats.json", "{}");
+        }
+    }
+    
+    public void SaveStats()
+    {
+        StatsExist();
+        string jsonString = File.ReadAllText("stats.json");
+        dynamic jsonFile =  JsonConvert.DeserializeObject(jsonString);
+
+        if (jsonFile.ContainsKey(Name))
+        {
+            jsonFile[Name] = Money;
+        }
+        else
+        {
+            jsonFile.Add(Name, Money);
+        }
+		
+        jsonFile = JsonConvert.SerializeObject(jsonFile);
+        File.WriteAllText("stats.json", jsonFile);
     }
 
-    public int CountCardsValue()
+    public void ReadMoney()
     {
-        int totalCount = 0;
-        List<Card> a = new List<Card>();
-
-        for (int index = 0; index < Cards.Count; index++)
-        {
-            if (Int32.TryParse(Cards[index].Name, out int result))
-            {
-                totalCount += result;
-            }
-            else
-            {
-                switch (Cards[index].Name)
-                {
-                    case "A":
-                        a.Add(Cards[index]);
-                        break;
-                    case "J": case "Q": case "K":
-                        totalCount += 10;
-                        break;
-                }
-            }
-        }
-
-        for (int index = 0; index < a.Count(); index++)
-        {
-            if (totalCount + 11 <= 21)
-            {
-                totalCount += 11;
-            }
-            else
-            {
-                totalCount++;
-            }
-        }
-
-        return totalCount;
-    }
-
-    public void PrintCards()
-    {
-        for (int index = 0; index < Cards.Count; index++)
-        {
-            Console.Write(Cards[index].Name + Cards[index].Symbol + " ");
-        }
+        StatsExist();
+        string jsonString = File.ReadAllText("stats.json");
+        dynamic jsonFile =  JsonConvert.DeserializeObject(jsonString);
+        Money = jsonFile.ContainsKey(Name) ? jsonFile[Name] == 0 ? 420 : jsonFile[Name] : 420;
     }
 }

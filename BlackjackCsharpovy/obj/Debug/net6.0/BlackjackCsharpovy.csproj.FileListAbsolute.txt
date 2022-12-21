@@ -34,7 +34,6 @@ C:\Users\baudyvo20\RiderProjects\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug
 C:\Users\baudyvo20\RiderProjects\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug\net6.0\BlackjackCsharpovy.pdb
 C:\Users\baudyvo20\RiderProjects\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug\net6.0\BlackjackCsharpovy.genruntimeconfig.cache
 C:\Users\baudyvo20\RiderProjects\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug\net6.0\ref\BlackjackCsharpovy.dll
-C:\Users\vojta\RiderProjects\BlackjackCsharpovy3\BlackjackCsharpovy\bin\Debug\net6.0\stats.json
 C:\Users\vojta\RiderProjects\BlackjackCsharpovy3\BlackjackCsharpovy\bin\Debug\net6.0\BlackjackCsharpovy.exe
 C:\Users\vojta\RiderProjects\BlackjackCsharpovy3\BlackjackCsharpovy\bin\Debug\net6.0\BlackjackCsharpovy.deps.json
 C:\Users\vojta\RiderProjects\BlackjackCsharpovy3\BlackjackCsharpovy\bin\Debug\net6.0\BlackjackCsharpovy.runtimeconfig.json
@@ -70,3 +69,4 @@ C:\Users\baudyvo20\BlackjackCsharpovy\BlackjackCsharpovy\bin\Debug\net6.0\Newton
 C:\Users\baudyvo20\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug\net6.0\BlackjackCsharpovy.csproj.CopyComplete
 C:\Users\baudyvo20\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug\net6.0\BlackjackCsharpovy.genruntimeconfig.cache
 C:\Users\baudyvo20\BlackjackCsharpovy\BlackjackCsharpovy\obj\Debug\net6.0\ref\BlackjackCsharpovy.dll
+C:\Users\vojta\RiderProjects\BlackjackCsharpovy3\BlackjackCsharpovy\bin\Debug\net6.0\stats.json

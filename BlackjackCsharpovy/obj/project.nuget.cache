@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+YivPcb07e3UXIj7lBqePQOQqdavKoz9RoK8h2x5q3eD88Fs1WmrPig/fvwzrpI+iuSfHKdgCF/FR1FjXYW9mg==",
+  "dgSpecHash": "hlULeT3s0mjCe/ql4BZ9j/F3zX8M8QZwdIcrAmKXaXqJxe2AclfT57TvbyNOBlaAJpprZHV1Xhy6KKVuo+zysQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\baudyvo20\\BlackjackCsharpovy\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
+  "projectFilePath": "C:\\Users\\vojta\\RiderProjects\\BlackjackCsharpovy3\\BlackjackCsharpovy\\BlackjackCsharpovy.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\baudyvo20\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+    "C:\\Users\\vojta\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
   ],
   "logs": []
 }

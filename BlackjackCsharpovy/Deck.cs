@@ -14,7 +14,15 @@ public class Deck
         {
             '♣', '♦', '♥', '♠'
         };
-
+        GenerateDeck(amountOfDecks, symbols);
+    }
+    
+    //  amountOfDecks [int]
+    //      return amountOfDecks * 52 cards
+    //  symbols [List<char>]
+    //      beautiful emojis
+    private void GenerateDeck(int amountOfDecks, List<char> symbols)
+    {
         for (int amount = 0; amount < amountOfDecks; amount++)
         {
             for (int value = 1; value <= 13; value++)

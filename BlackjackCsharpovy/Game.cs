@@ -6,25 +6,27 @@ namespace BlackjackCsharpovy;
 
 public class Game
 {
+    //  ATTRIBUTES
     public bool Run;
     public Dealer Dealer;
     public Player Player;
     public Deck Deck;
+    public MenuController MenuController;
+    
     internal Game()
     {
+        Player = new Player("");
+        MenuController = new MenuController();
+        Dealer = new Dealer();
         Run = true;
     }
 
+    //  GAMELOOP    
     public void GameLoop()
     {
         while (Run)
         {
-            Console.Write(
-                "\nBLACKJACK\n" +
-                "[P]LAY\n" +
-                "[L]EADER\n" +
-                "[E]XIT\n"
-            );
+            MenuController.MainMenu();
             switch (GetInput())
             {
                 case "p": case "play":
@@ -42,23 +44,21 @@ public class Game
 
     public void LeaderBoard()
     {
+        Player.StatsExist();
         Console.Write("LEADER\n\n");
         
+        //  LOAD FILE        
         string jsonString = File.ReadAllText("stats.json");
         Dictionary<string, int> jsonFile = JsonConvert.DeserializeObject<Dictionary<string, int>>(jsonString);
-
+        
+        //  PRINT DATA
         var sortedDict = (from entry in jsonFile orderby entry.Value descending select entry).Take(5);
         Console.WriteLine(string.Join("\n", sortedDict.Select(pair => $"{pair.Key}: {pair.Value}\n")));
     }
 
-//  TODO
-//      LOAD MONEY
-//      SAVE TO LEADER
-    
     public void Play()
     {
-        Player = new Player(GetUserName());
-        Dealer = new Dealer();
+        Player.Name = GetUserName();
         Deck = new Deck(4);
         int bet = -1;
         bool play = true;
@@ -68,21 +68,8 @@ public class Game
             bool round = true;
             Player.Cards.Clear();
             Dealer.Cards.Clear();
-            
-            while (round)
-            {
-                Console.WriteLine("CREDIT: " + Player.Money + "\nSET YOUR BET");
-                int input = Int32.Parse(GetInput(0, "number"));
-                if (input > 0 && input <= Player.Money)
-                {
-                    bet = input;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("\nENTER VALID NUMBER");
-                }
-            }
+
+            bet = GetBet(round);
             
             while (round)
             {
@@ -92,15 +79,11 @@ public class Game
                 Player.GetCard(Deck.DealCard());
                 Dealer.GetCard(Deck.DealCard());
 
+                // HITTING LOOP
                 while (Player.CountCardsValue() < 21 && pick)
                 {
                     GetStats();
-                    Console.Write(
-                        "\nSELECT ONE OPTION\n" +
-                        "[H]IT\n" +
-                        "[D]OUBLE\n" +
-                        "[S]TAND\n"
-                    );
+                    MenuController.OptionMenu();
                     switch (GetInput())
                     {
                         case "h": case "hit":
@@ -126,29 +109,8 @@ public class Game
                     Dealer.GetCard(Deck.DealCard());
                 }
 
-                string win;
-                if (Player.CountCardsValue() > 21)
-                {
-                    win = "dealer";
-                }
-                else if (Dealer.CountCardsValue() > 21)
-                {
-                    win = "player";
-                }
-                else if (Player.CountCardsValue() > Dealer.CountCardsValue())
-                {
-                    win = "player";
-                }
-                else if (Player.CountCardsValue() < Dealer.CountCardsValue())
-                {
-                    win = "dealer";
-                }
-                else
-                {
-                    win = "draft";
-                }
-                
-                switch (win)
+                // RESULT
+                switch (GetResult())
                 {
                     case "player":
                         GetStats();
@@ -166,18 +128,27 @@ public class Game
                         break;
                 }
                 
+                // SAVE DATA TO JSONEK
+                Player.SaveStats();
                 Console.ReadLine();
                 Console.Clear();
 
-                bool output = true; 
+                bool output;
+                if (Player.Money == 0)
+                {
+                    output = false;
+                    play = false;
+                    round = false;
+                }
+                else
+                {
+                    output = true;
+                }
+                
+                // ANOTHER ROUND LOOP
                 while (output)
                 {
-                    Console.WriteLine(
-                        "CREDIT: " + Player.Money + "\n\n" +
-                        "ANOTHER ROUND?\n" +
-                        "[Y]ES\n" +
-                        "[N]O"
-                    );
+                    MenuController.AnotherRoundMenu(Player.Money);
                     switch (GetInput())
                     {
                         case "y": case "yes":
@@ -189,12 +160,60 @@ public class Game
                             play = false;
                             round = false;
                             break;
+                        default:
+                            Console.WriteLine("ERROR");
+                            break;
                     }
                 }
             }
         }
     }
 
+    private string GetResult()
+    {
+        if (Player.CountCardsValue() > 21)
+        {
+            return "dealer";
+        }
+        else if (Dealer.CountCardsValue() > 21)
+        {
+            return "player";
+        }
+        else if (Player.CountCardsValue() > Dealer.CountCardsValue())
+        {
+            return "player";
+        }
+        else if (Player.CountCardsValue() < Dealer.CountCardsValue())
+        {
+            return "dealer";
+        }
+        else
+        {
+            return "draft";
+        }
+    }
+    
+    private int GetBet(bool round)
+    {
+        int bet = -1;
+        while (round)
+        {
+            Console.WriteLine("CREDIT: " + Player.Money + "\nSET YOUR BET");
+            int input = Int32.Parse(GetInput(0, "number"));
+            if (input > 0 && input <= Player.Money)
+            {
+                bet = input;
+                break;
+            }
+            else
+            {
+                Console.WriteLine("\nENTER VALID NUMBER");
+            }
+        }
+
+        return bet;
+    }
+    
     private void GetStats()
     {
         Console.Clear();
@@ -222,6 +241,11 @@ public class Game
         return input;
     }
     
+    //  maxLetters [int]
+    //      value:  0 = default (none)
+    //  type [string]
+    //      value:  "letter" (char/string)
+    //              "number" (int/numeric value)
     private string GetInput(int maxLetters = 0, string type = "letter")
     {
         string input;
