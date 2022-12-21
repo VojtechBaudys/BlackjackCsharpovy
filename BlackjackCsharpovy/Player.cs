@@ -40,14 +40,8 @@ public class Player
                     case "A":
                         a.Add(Cards[index]);
                         break;
-                    case "J":
-                        totalCount += 11;
-                        break;
-                    case "Q":
-                        totalCount += 12;
-                        break;
-                    case "K":
-                        totalCount += 13;
+                    case "J": case "Q": case "K":
+                        totalCount += 10;
                         break;
                 }
             }

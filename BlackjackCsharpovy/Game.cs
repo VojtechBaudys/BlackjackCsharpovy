@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace BlackjackCsharpovy;
@@ -50,96 +51,146 @@ public class Game
         Console.WriteLine(string.Join("\n", sortedDict.Select(pair => $"{pair.Key}: {pair.Value}\n")));
     }
 
+//  TODO
+//      LOAD MONEY
+//      SAVE TO LEADER
+    
     public void Play()
     {
         Player = new Player(GetUserName());
         Dealer = new Dealer();
         Deck = new Deck(4);
-        int bet;
+        int bet = -1;
         bool play = true;
 
-        while (true)
-        {
-            Console.WriteLine("CREDIT: " + Player.Money + "\nSET YOUR BET");
-            int input = Int32.Parse(GetInput(0, "number"));
-            if (input > 0 && input <= Player.Money)
-            {
-                bet = input;
-                break;
-            }
-            else
-            {
-                Console.WriteLine("\nENTER VALID NUMBER");
-            }
-        }
-        
-        // win
-        //  dealer > 21
-        //  player > dealer
-        
-        // lose
-        //  player > 21
-        //  dealer < player
-        
-        
         while (play)
         {
-            bool pick = true;
+            bool round = true;
+            Player.Cards.Clear();
+            Dealer.Cards.Clear();
             
-            Player.GetCard(Deck.DealCard());
-            Player.GetCard(Deck.DealCard());
-            Dealer.GetCard(Deck.DealCard());
-
-            while (Player.CountCardsValue() < 21 && pick)
+            while (round)
             {
-                GetStats();
-                Console.Write(
-                    "\nSELECT ONE OPTION\n" +
-                    "[H]IT\n" +
-                    "[D]OUBLE\n" +
-                    "[S]TAND\n"
-                );
-                switch (GetInput())
+                Console.WriteLine("CREDIT: " + Player.Money + "\nSET YOUR BET");
+                int input = Int32.Parse(GetInput(0, "number"));
+                if (input > 0 && input <= Player.Money)
                 {
-                    case "h": case "hit":
-                        Player.GetCard(Deck.DealCard());
-                        break;
-                    case "d": case "double":
-                        if (bet * 2 <= Player.Money)
-                        {
-                            Player.GetCard(Deck.DealCard());
-                            bet *= 2;
-                            pick = false;
-                            play = false;
-                        }
-                        break;
-                    case "s": case "stand":
-                        pick = false;
-                        play = false;
-                        break;
+                    bet = input;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("\nENTER VALID NUMBER");
                 }
             }
             
-            while (Dealer.CountCardsValue() < 17 && Player.CountCardsValue() <= 21)
+            while (round)
             {
-                GetStats();
+                bool pick = true;
+                
+                Player.GetCard(Deck.DealCard());
+                Player.GetCard(Deck.DealCard());
                 Dealer.GetCard(Deck.DealCard());
-            }
 
-            
-            if (Player.CountCardsValue() < Dealer.CountCardsValue() || Player.CountCardsValue() > 21 || Dealer.CountCardsValue() <= 21)
-            {
-                GetStats();
-                Console.WriteLine("\nLOSE");
-                play = false;
-                Player.Money -= bet;
-            }
-            else
-            {
-                GetStats();
-                Console.WriteLine("\nWIN");
-                play = false;
-                Player.Money += bet;
+                while (Player.CountCardsValue() < 21 && pick)
+                {
+                    GetStats();
+                    Console.Write(
+                        "\nSELECT ONE OPTION\n" +
+                        "[H]IT\n" +
+                        "[D]OUBLE\n" +
+                        "[S]TAND\n"
+                    );
+                    switch (GetInput())
+                    {
+                        case "h": case "hit":
+                            Player.GetCard(Deck.DealCard());
+                            break;
+                        case "d": case "double":
+                            if (bet * 2 <= Player.Money)
+                            {
+                                Player.GetCard(Deck.DealCard());
+                                bet *= 2;
+                                pick = false;
+                            }
+                            break;
+                        case "s": case "stand":
+                            pick = false;
+                            break;
+                    }
+                }
+                
+                while (Dealer.CountCardsValue() < 17 && Player.CountCardsValue() <= 21)
+                {
+                    GetStats();
+                    Dealer.GetCard(Deck.DealCard());
+                }
+
+                string win;
+                if (Player.CountCardsValue() > 21)
+                {
+                    win = "dealer";
+                }
+                else if (Dealer.CountCardsValue() > 21)
+                {
+                    win = "player";
+                }
+                else if (Player.CountCardsValue() > Dealer.CountCardsValue())
+                {
+                    win = "player";
+                }
+                else if (Player.CountCardsValue() < Dealer.CountCardsValue())
+                {
+                    win = "dealer";
+                }
+                else
+                {
+                    win = "draft";
+                }
+                
+                switch (win)
+                {
+                    case "player":
+                        GetStats();
+                        Console.WriteLine("\nWIN");
+                        Player.Money += bet;    
+                        break;
+                    case "dealer":
+                        GetStats();
+                        Console.WriteLine("\nLOSE");
+                        Player.Money -= bet;
+                        break;
+                    case "draft":
+                        GetStats();
+                        Console.WriteLine("\nDRAFT");
+                        break;
+                }
+                
+                Console.ReadLine();
+                Console.Clear();
+
+                bool output = true; 
+                while (output)
+                {
+                    Console.WriteLine(
+                        "CREDIT: " + Player.Money + "\n\n" +
+                        "ANOTHER ROUND?\n" +
+                        "[Y]ES\n" +
+                        "[N]O"
+                    );
+                    switch (GetInput())
+                    {
+                        case "y": case "yes":
+                            output = false;
+                            round = false;
+                            break;
+                        case "n": case "no":
+                            output = false;
+                            play = false;
+                            round = false;
+                            break;
+                    }
+                }
             }
         }
     }

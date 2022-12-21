@@ -40,7 +40,6 @@ public class Deck
                             name = value.ToString();
                             break;
                     }
-
                     Cards.Add(new Card(name, symbols[symbol]));
                 }
             }
