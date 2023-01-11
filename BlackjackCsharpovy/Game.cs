@@ -58,7 +58,7 @@ public class Game
 
     public void Play()
     {
-        Player.Name = GetUserName();
+        Player = new Player(GetUserName());
         Deck = new Deck(4);
         int bet = -1;
         bool play = true;
